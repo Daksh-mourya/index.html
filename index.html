@@ -1,156 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Sorry ❤️</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ducks ❤️ Puchku</title>
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-      font-family: 'Segoe UI', sans-serif;
-      overflow: hidden;
-    }
+<style>
 
-    .container {
-      text-align: center;
-      color: #fff;
-      padding: 20px;
-    }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-    a {
-      font-size: 26px;
-      color: #fff;
-      text-decoration: none;
-      background: rgba(255,255,255,0.25);
-      padding: 14px 32px;
-      border-radius: 40px;
-      backdrop-filter: blur(6px);
-      transition: transform 0.3s, background 0.3s;
-    }
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffd6e7,#fff0f7);
+    font-family:Georgia, serif;
+    overflow:hidden;
+}
 
-    a:hover {
-      transform: scale(1.1);
-      background: rgba(255,255,255,0.4);
-    }
+/* Gift */
 
-    h1 {
-      display: none;
-      font-size: 90px;
-      margin: 25px 0 10px;
-      text-shadow: 0 0 25px rgba(255,255,255,0.9);
-      animation: heartbeat 1.5s infinite;
-    }
+#gift{
+    font-size:220px;
+    cursor:pointer;
+    transition:.3s;
+}
 
-    p {
-      display: none;
-      font-size: 22px;
-      line-height: 1.6;
-      opacity: 0.95;
-    }
+#gift:hover{
+    transform:scale(1.1);
+}
 
-    button {
-      display: none;
-      margin-top: 25px;
-      padding: 12px 28px;
-      font-size: 20px;
-      border: none;
-      border-radius: 30px;
-      background: #fff;
-      color: #ff4f7b;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
+/* Book */
 
-    button:hover {
-      transform: scale(1.1);
-    }
+#book{
+    display:none;
+    width:950px;
+    height:620px;
+    background:#7a4b25;
+    border-radius:12px;
+    position:relative;
 
-    @keyframes heartbeat {
-      0% { transform: scale(1); }
-      25% { transform: scale(1.1); }
-      50% { transform: scale(1); }
-      75% { transform: scale(1.15); }
-      100% { transform: scale(1); }
-    }
+    box-shadow:
+    0 20px 60px rgba(0,0,0,.35),
+    inset 0 0 15px rgba(255,255,255,.15);
 
-    .hearts {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
+    animation:openBook .8s ease;
+}
 
-    .heart {
-      position: absolute;
-      font-size: 24px;
-      animation: float 6s linear infinite;
-      opacity: 0.8;
-    }
+/* Book spreads */
 
-    @keyframes float {
-      0% { transform: translateY(100vh); opacity: 0; }
-      20% { opacity: 1; }
-      100% { transform: translateY(-10vh); opacity: 0; }
+.spread{
+    display:none;
+    width:100%;
+    height:100%;
+}
+
+.spread.active{
+    display:flex;
+}
+
+.leftPage,
+.rightPage{
+    width:50%;
+    height:100%;
+    background:#f9f2de;
+    position:relative;
+    padding:35px;
+
+    background-image:
+    repeating-linear-gradient(
+        transparent,
+        transparent 34px,
+        rgba(0,0,0,.05) 35px
+    );
+}
+
+.leftPage{
+    border-right:10px solid #d7c2a1;
+}
+
+.rightPage{
+    border-left:10px solid #d7c2a1;
+}
+
+/* Shadows near spine */
+
+.leftPage::after{
+    content:"";
+    position:absolute;
+    right:0;
+    top:0;
+    width:20px;
+    height:100%;
+    background:linear-gradient(to left,rgba(0,0,0,.12),transparent);
+}
+
+.rightPage::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:20px;
+    height:100%;
+    background:linear-gradient(to right,rgba(0,0,0,.12),transparent);
+}
+
+/* Photo */
+
+.photo{
+    width:220px;
+    display:block;
+    margin:15px auto;
+    border:10px solid white;
+    box-shadow:0 5px 15px rgba(0,0,0,.25);
+    transform:rotate(-3deg);
+}
+
+/* Titles */
+
+.title{
+    text-align:center;
+    color:#c2185b;
+    margin-bottom:20px;
+}
+
+.text{
+    text-align:center;
+    line-height:1.8;
+    color:#444;
+    margin-top:20px;
+}
+
+.rose{
+    text-align:center;
+    font-size:60px;
+}
+
+/* Arrows */
+
+#prev,#next{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:60px;
+    height:60px;
+    border:none;
+    border-radius:50%;
+    background:white;
+    font-size:24px;
+    cursor:pointer;
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+#prev{
+    left:-80px;
+}
+
+#next{
+    right:-80px;
+}
+
+/* Animation */
+
+@keyframes openBook{
+    from{
+        opacity:0;
+        transform:scale(.5);
     }
-  </style>
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+</style>
 </head>
-
 <body>
 
-  <div class="container">
-    <a href="#" onclick="showSorry()">Tap here 💔</a>
+<div id="gift">🎁</div>
 
-    <h1 id="sorry">SORRY ❤️</h1>
+<div id="book">
 
-    <p id="text">
-      I know I made a mistake…<br>
-      But my heart never meant to hurt you 🌹<br>
-      You mean more to me than words can ever say.
-    </p>
+<!-- SPREAD 1 -->
 
-    <button id="forgive" onclick="forgiven()">
-      Forgive me? 🥺
-    </button>
-  </div>
+<div class="spread active">
 
-  <div class="hearts" id="hearts"></div>
+    <div class="leftPage">
 
-  <audio id="music" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-  </audio>
+        <h1 class="title">Ducks ❤️ Puchku</h1>
 
-  <script>
-    function showSorry() {
-      document.getElementById("sorry").style.display = "block";
-      document.getElementById("text").style.display = "block";
-      document.getElementById("forgive").style.display = "inline-block";
-      document.getElementById("music").play();
-      createHearts();
+        <p class="text">
+            Six Months Together
+        </p>
+
+        <p class="text">
+           <br>
+          <br>
+          <br>
+            A little book of our memories,
+            adventures, laughter and moments.<br>
+        <br>
+        <br>
+        a very happy 6 month aniversary 
+        <br>to the person i love the most <br>
+        in the whole world🥰
+
+        </p>
+
+    </div>
+
+    <div class="rightPage">
+
+        <div class="rose">🌹</div>
+
+        <img src="us.jpeg" class="photo">
+
+        <h1 class="title">
+            Our First<br>6 Months
+        </h1>
+
+        <p class="text">
+            14 December 2025 — 14 June 2026
+        </p>
+
+    </div>
+
+</div>
+
+<!-- SPREAD 2 -->
+
+<div class="spread">
+
+    <div class="leftPage">
+
+        <h1 class="title">How We Met 🌹</h1>
+
+        <p class="text">
+            Dear Puchku,
+            <br><br>
+            I never believed in destiny stuff,
+            but somehow we happened to meet
+            at the right spot at the right time.
+            that day if there were no abandoned building 
+            in our clg we never had made out and we never 
+            could kiss each other so passionately like on that
+            day there was tension and dark.
+            and after that your love made me love you too 
+            cuz you are the bestest girlfriend in this whole world🥰
+        </p>
+        <img src="second.jpeg" class="photo">
+       
+
+    </div>
+
+    <div class="rightPage">
+
+        <img src="third.jpeg" class="photo">
+
+        <p class="text">
+            All the time we spent togather in AB <br>
+            all those cuddle sessions all those hugs <br>
+            and kissis i loved every single second with <br>
+            you and i wanna contunue our love till the end of <br>
+            my life💕.
+
+        </p>
+
+    </div>
+
+</div>
+
+<!-- SPREAD 3 -->
+
+<div class="spread">
+
+    <div class="leftPage">
+
+        <h1 class="title">Favorite Memory 📸</h1>
+
+        <p class="text">
+             when on my birthday you gave me my <br>
+             birthday present in ama cafe my eyes <br>
+             were almost filled with tears i didnt <br>
+             cared about if some other person is looking <br>
+             at me or not i just hugged you and you were <br>
+             looking sooo sooo sooo beautiful even more <br>
+             beautiful than beautiful. we ate pancakes , corn dog <br>
+             , laphin,and for 2 times tera phuchuk phuchuk karne <br>
+             walla booa tea. 
+        </p>
+
+    </div>
+
+    <div class="rightPage">
+
+        <img src="first.jpeg" class="photo">
+
+        <p class="text">
+            I loves when ever i feels loved by you <br>
+            and remember when we were at japanese park <br>
+            when tears were coming out of my eyes(i wasnt <br>
+            crying) and you just sat on my lap and gave me <br>
+            kissis and gaal bhe ragda tha hume i loved it <br>
+            soo much🥺.
+        </p>
+
+    </div>
+
+</div>
+
+<!-- SPREAD 4 -->
+
+<div class="spread">
+
+    <div class="leftPage">
+
+        <h1 class="title">Things I Love About You ❤️</h1>
+
+        <p class="text">
+            ❤️she always supports and belives in me .<br>
+            ❤️she is most of the times so calm and she never shouted on me.<br>
+            ❤️she laughs on my jokes which makes me happy.<br>
+            ❤️she gives me a lots of kissis she is a baby of mine.<br>
+            ❤️she always protects the relationship,like alwayssss.
+        </p>
+
+    </div>
+
+    <div class="rightPage">
+
+        <h1 class="title">Thank You for being my girlfriend🌹</h1>
+
+        <p class="text">
+            In the end i wanna say that yoyu are the bestest <br>
+            girlfriend in the whole world and thanks for <br>
+            beliving in me and supporting me and thanks you <br>
+            that you maintained our relationship even when <br>
+            i wasnt good like (break up break up bolta rehta <br>
+            tha), its you jiski vajhe se ye relationship hai , <br>
+            cant thank you enough for that . i wanna go on the <br>
+            beaches , the mountains , the islands and i wanna <br>
+            travel with you a lotttt and want to be with you <br>
+            for my whole life. will you be with me forever too??<br>
+            ~aapka hone wana pati , Ducks💕
+        </p>
+
+    </div>
+
+</div>
+
+<button id="prev">❮</button>
+<button id="next">❯</button>
+
+</div>
+
+<script>
+
+const spreads = document.querySelectorAll(".spread");
+
+let current = 0;
+
+document.getElementById("gift").onclick = () => {
+
+    document.getElementById("gift").style.display = "none";
+    document.getElementById("book").style.display = "block";
+
+};
+
+document.getElementById("next").onclick = () => {
+
+    if(current < spreads.length - 1){
+
+        spreads[current].classList.remove("active");
+
+        current++;
+
+        spreads[current].classList.add("active");
+
     }
 
-    function forgiven() {
-      alert("Thank you ❤️ You just made my heart smile 😊");
+};
+
+document.getElementById("prev").onclick = () => {
+
+    if(current > 0){
+
+        spreads[current].classList.remove("active");
+
+        current--;
+
+        spreads[current].classList.add("active");
+
     }
 
-    function createHearts() {
-      const hearts = document.getElementById("hearts");
-      setInterval(() => {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.innerHTML = "❤️";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (4 + Math.random() * 3) + "s";
-        hearts.appendChild(heart);
-        setTimeout(() => heart.remove(), 7000);
-      }, 300);
-    }
-  </script>
+};
+
+</script>
 
 </body>
 </html>
